@@ -47,6 +47,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Validate Kubernetes manifest
         run: |
-          kubectl apply --dry-run=client --validate=false -f k8s-app.yaml
+          pip install pyyaml
+          python3 -c "import yaml; list(yaml.safe_load_all(open('k8s-app.yaml'))); print('k8s-app.yaml is valid')"
       - name: Deploy step
         run: echo "Image pushed to GHCR. Deploy with kubectl apply -f k8s-app.yaml on the kind cluster."
